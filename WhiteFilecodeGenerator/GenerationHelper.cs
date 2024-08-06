@@ -1,5 +1,4 @@
 ﻿using WhiteFilecodeGenerator.Dirs;
-using System;
 
 namespace WhiteFilecodeGenerator
 {
@@ -7,7 +6,6 @@ namespace WhiteFilecodeGenerator
     {
         public static void GenerateFileCode(string virtualPath, SharedEnums.GameID gameID)
         {
-            Console.WriteLine("");
             var virtualPathData = virtualPath.Split('/');
 
             switch (virtualPathData[0])

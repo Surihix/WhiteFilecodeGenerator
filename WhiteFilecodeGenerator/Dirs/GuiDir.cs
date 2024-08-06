@@ -164,7 +164,6 @@ namespace WhiteFilecodeGenerator.Dirs
                                 categoryGrpID = SharedMethods.UserInput("Enter category group number", "Must be from 0 to 2047", 0, 2047);
 
                                 categoryGrpBits = Convert.ToString(categoryGrpID, 2).PadLeft(11, '0');
-                                Console.WriteLine("");
 
                                 // 12 bits
                                 fileID = SharedMethods.UserInput("Enter file number", "Must be from 0 to 4095", 0, 4095);

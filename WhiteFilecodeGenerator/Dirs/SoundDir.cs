@@ -55,9 +55,6 @@ namespace WhiteFilecodeGenerator.Dirs
                 case "sound/pack":
                     mainTypeBits = Convert.ToString(10, 2).PadLeft(4, '0');
 
-                    Console.WriteLine("");
-                    Console.WriteLine("");
-
                     // 2 bits
                     if (fileExtn == ".scd")
                     {
@@ -96,8 +93,6 @@ namespace WhiteFilecodeGenerator.Dirs
 
                         var scdFileNum = int.Parse(soundDirNumber.ToString() + "" + scdFileID.ToString().PadLeft(3, '0'));
                         soundNumBits = Convert.ToString(scdFileNum, 2).PadLeft(26, '0');
-
-                        Console.WriteLine("");
                     }
 
                     // Assemble bits
@@ -149,9 +144,6 @@ namespace WhiteFilecodeGenerator.Dirs
             switch (startingPortion)
             {
                 case "sound/pack":
-                    Console.WriteLine("");
-                    Console.WriteLine("");
-
                     // 2 bits
                     if (fileExtn == ".scd")
                     {
@@ -190,8 +182,6 @@ namespace WhiteFilecodeGenerator.Dirs
 
                         var scdFileNum = int.Parse(soundDirNumber.ToString() + "" + scdFileID.ToString().PadLeft(3, '0'));
                         soundNumBits = Convert.ToString(scdFileNum, 2).PadLeft(26, '0');
-
-                        Console.WriteLine("");
                     }
 
                     // Assemble bits
