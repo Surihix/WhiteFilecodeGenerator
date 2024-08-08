@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace WhiteFilecodeGenerator
+namespace WhiteFilecodeGenerator.Support
 {
     internal class SharedMethods
     {
@@ -12,11 +12,11 @@ namespace WhiteFilecodeGenerator
         {
             if (isError)
             {
-                MessageBox.Show(msg, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
-                MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(msg, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 

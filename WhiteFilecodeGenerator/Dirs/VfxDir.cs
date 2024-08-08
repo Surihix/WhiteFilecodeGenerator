@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using WhiteFilecodeGenerator.Support;
 using static WhiteFilecodeGenerator.SharedEnums;
 
 namespace WhiteFilecodeGenerator.Dirs

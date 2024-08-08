@@ -1,4 +1,5 @@
 ﻿using System.Windows.Forms;
+using WhiteFilecodeGenerator.Support;
 
 namespace WhiteFilecodeGenerator
 {

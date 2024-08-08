@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using WhiteFilecodeGenerator.Support;
 using static WhiteFilecodeGenerator.SharedEnums;
 
 namespace WhiteFilecodeGenerator

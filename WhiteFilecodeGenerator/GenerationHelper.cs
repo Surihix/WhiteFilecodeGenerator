@@ -1,4 +1,5 @@
 ﻿using WhiteFilecodeGenerator.Dirs;
+using WhiteFilecodeGenerator.Support;
 
 namespace WhiteFilecodeGenerator
 {
@@ -20,6 +21,10 @@ namespace WhiteFilecodeGenerator
 
                 case "sound":
                     SoundDir.ProcessSoundPath(virtualPathData, virtualPath, gameID);
+                    break;
+
+                case "txtres":
+                    TxtresDir.ProcessTxtresPath(virtualPathData, virtualPath, gameID);
                     break;
 
                 case "vfx":

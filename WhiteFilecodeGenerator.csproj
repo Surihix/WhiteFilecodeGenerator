@@ -61,14 +61,15 @@
     <Compile Include="WhiteFilecodeGenerator\Dirs\ChrDir.cs" />
     <Compile Include="WhiteFilecodeGenerator\Dirs\GuiDir.cs" />
     <Compile Include="WhiteFilecodeGenerator\Dirs\SoundDir.cs" />
+    <Compile Include="WhiteFilecodeGenerator\Dirs\TxtresDir.cs" />
     <Compile Include="WhiteFilecodeGenerator\Dirs\VfxDir.cs" />
     <Compile Include="WhiteFilecodeGenerator\Dirs\ZoneDir.cs" />
     <Compile Include="WhiteFilecodeGenerator\Extensions\BitOperationHelpers.cs" />
     <Compile Include="WhiteFilecodeGenerator\GenerationHelper.cs" />
     <Compile Include="WhiteFilecodeGenerator\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WhiteFilecodeGenerator\SharedEnums.cs" />
-    <Compile Include="WhiteFilecodeGenerator\SharedMethods.cs" />
+    <Compile Include="WhiteFilecodeGenerator\Support\SharedEnums.cs" />
+    <Compile Include="WhiteFilecodeGenerator\Support\SharedMethods.cs" />
     <Compile Include="WhiteFilecodeGenerator\SuccessForm.cs">
       <SubType>Form</SubType>
     </Compile>

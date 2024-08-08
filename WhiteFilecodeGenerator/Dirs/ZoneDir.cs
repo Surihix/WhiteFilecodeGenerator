@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using WhiteFilecodeGenerator.Support;
 using static WhiteFilecodeGenerator.SharedEnums;
 
 namespace WhiteFilecodeGenerator.Dirs
@@ -92,7 +93,7 @@ namespace WhiteFilecodeGenerator.Dirs
                         extraInfo += $"Reserved (9 bits): {reservedBits}\r\n\r\n";
                         extraInfo += $"ZoneNumber (8 bits): {zoneNumBits}";
                         finalComputedBits.Reverse();
-                        
+
                         fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
                         SharedMethods.ShowSuccessForm(fileCode, extraInfo);

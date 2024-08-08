@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using WhiteFilecodeGenerator.Support;
 using static WhiteFilecodeGenerator.SharedEnums;
 
 namespace WhiteFilecodeGenerator.Dirs
@@ -106,6 +107,8 @@ namespace WhiteFilecodeGenerator.Dirs
                     finalComputedBits.Reverse();
 
                     fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
+
+                    SharedMethods.ShowSuccessForm(fileCode, extraInfo);
                     break;
 
 
@@ -113,9 +116,6 @@ namespace WhiteFilecodeGenerator.Dirs
                     SharedMethods.ErrorHalt("Unable to generate filecode. check if the path starts with a valid directory.");
                     break;
             }
-
-
-            SharedMethods.ShowSuccessForm(fileCode, extraInfo);
         }
         #endregion
 
@@ -195,6 +195,8 @@ namespace WhiteFilecodeGenerator.Dirs
                     finalComputedBits.Reverse();
 
                     fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
+
+                    SharedMethods.ShowSuccessForm(fileCode, extraInfo);
                     break;
 
 
@@ -202,9 +204,6 @@ namespace WhiteFilecodeGenerator.Dirs
                     SharedMethods.ErrorHalt("Unable to generate filecode. check if the path starts with a valid directory.");
                     break;
             }
-
-
-            SharedMethods.ShowSuccessForm(fileCode, extraInfo);
         }
         #endregion
     }
