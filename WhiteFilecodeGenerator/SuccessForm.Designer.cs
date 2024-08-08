@@ -38,7 +38,7 @@
             // CodeLabel
             // 
             this.CodeLabel.AutoSize = true;
-            this.CodeLabel.Location = new System.Drawing.Point(88, 20);
+            this.CodeLabel.Location = new System.Drawing.Point(15, 20);
             this.CodeLabel.Name = "CodeLabel";
             this.CodeLabel.Size = new System.Drawing.Size(50, 13);
             this.CodeLabel.TabIndex = 0;
@@ -46,10 +46,11 @@
             // 
             // CodeTxtBox
             // 
-            this.CodeTxtBox.Location = new System.Drawing.Point(73, 38);
+            this.CodeTxtBox.Location = new System.Drawing.Point(18, 36);
+            this.CodeTxtBox.Multiline = true;
             this.CodeTxtBox.Name = "CodeTxtBox";
             this.CodeTxtBox.ReadOnly = true;
-            this.CodeTxtBox.Size = new System.Drawing.Size(80, 20);
+            this.CodeTxtBox.Size = new System.Drawing.Size(80, 26);
             this.CodeTxtBox.TabIndex = 1;
             // 
             // OkBtn
@@ -65,7 +66,7 @@
             // ExtraInfoLabel
             // 
             this.ExtraInfoLabel.AutoSize = true;
-            this.ExtraInfoLabel.Location = new System.Drawing.Point(86, 93);
+            this.ExtraInfoLabel.Location = new System.Drawing.Point(15, 99);
             this.ExtraInfoLabel.Name = "ExtraInfoLabel";
             this.ExtraInfoLabel.Size = new System.Drawing.Size(55, 13);
             this.ExtraInfoLabel.TabIndex = 4;

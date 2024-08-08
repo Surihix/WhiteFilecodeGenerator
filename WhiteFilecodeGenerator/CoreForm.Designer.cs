@@ -113,7 +113,7 @@
             // PathCharaNoticeLabel
             // 
             this.PathCharaNoticeLabel.AutoSize = true;
-            this.PathCharaNoticeLabel.Location = new System.Drawing.Point(99, 83);
+            this.PathCharaNoticeLabel.Location = new System.Drawing.Point(99, 86);
             this.PathCharaNoticeLabel.Name = "PathCharaNoticeLabel";
             this.PathCharaNoticeLabel.Size = new System.Drawing.Size(206, 13);
             this.PathCharaNoticeLabel.TabIndex = 4;
