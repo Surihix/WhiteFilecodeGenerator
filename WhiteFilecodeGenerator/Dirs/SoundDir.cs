@@ -51,70 +51,77 @@ namespace WhiteFilecodeGenerator.Dirs
             // 4 bits
             var mainTypeBits = string.Empty;
 
-            switch (startingPortion)
+            if (virtualPathData.Length > 2)
             {
-                case "sound/pack":
-                    mainTypeBits = Convert.ToString(10, 2).PadLeft(4, '0');
+                switch (startingPortion)
+                {
+                    case "sound/pack":
+                        mainTypeBits = Convert.ToString(10, 2).PadLeft(4, '0');
 
-                    // 2 bits
-                    if (fileExtn == ".scd")
-                    {
-                        fileExtnID = 2;
-                    }
-                    else
-                    {
-                        fileExtnID = 3;
-                    }
+                        // 2 bits
+                        if (fileExtn == ".scd")
+                        {
+                            fileExtnID = 2;
+                        }
+                        else
+                        {
+                            fileExtnID = 3;
+                        }
 
-                    fileExtnBits = Convert.ToString(fileExtnID, 2).PadLeft(2, '0');
+                        fileExtnBits = Convert.ToString(fileExtnID, 2).PadLeft(2, '0');
 
-                    // 26 bits
-                    var soundDirNumber = SharedMethods.DeriveNumFromString(virtualPathData[2]);
-                    string soundNumBits;
+                        // 26 bits
+                        var soundDirID = SharedMethods.DeriveNumFromString(virtualPathData[2]);
+                        string soundIDbits;
 
-                    if (soundDirNumber == -1)
-                    {
-                        SharedMethods.ErrorHalt("Sound directory number in path was invalid");
-                    }
+                        if (soundDirID == -1)
+                        {
+                            SharedMethods.ErrorHalt("Sound directory number in path was invalid");
+                        }
 
-                    if (soundDirNumber > 9999)
-                    {
-                        SharedMethods.ErrorHalt("Sound directory number in the path is too large. must be from 0000 to 9999.");
-                    }
+                        if (soundDirID > 9999)
+                        {
+                            SharedMethods.ErrorHalt("Sound directory number in the path is too large. must be from 0 to 9999.");
+                        }
 
-                    // If .wpd, then do not
-                    // prompt for file number
-                    if (fileExtn == ".wpd")
-                    {
-                        soundNumBits = Convert.ToString(soundDirNumber, 2).PadLeft(26, '0');
-                    }
-                    else
-                    {
-                        var scdFileID = SharedMethods.UserInput("Enter SCD number", "Must be from 0 to 999", 0, 999);
+                        // If .wpd, then do not
+                        // prompt for file number
+                        if (fileExtn == ".wpd")
+                        {
+                            soundIDbits = Convert.ToString(soundDirID, 2).PadLeft(26, '0');
+                        }
+                        else
+                        {
+                            var scdFileID = SharedMethods.UserInput("Enter SCD number", "Must be from 0 to 999", 0, 999);
 
-                        var scdFileNum = int.Parse(soundDirNumber.ToString() + "" + scdFileID.ToString().PadLeft(3, '0'));
-                        soundNumBits = Convert.ToString(scdFileNum, 2).PadLeft(26, '0');
-                    }
+                            var scdFileIDmerged = int.Parse(soundDirID.ToString() + "" + scdFileID.ToString().PadLeft(3, '0'));
+                            soundIDbits = Convert.ToString(scdFileIDmerged, 2).PadLeft(26, '0');
+                        }
 
-                    // Assemble bits
-                    finalComputedBits += mainTypeBits;
-                    finalComputedBits += fileExtnBits;
-                    finalComputedBits += soundNumBits;
+                        // Assemble bits
+                        finalComputedBits += mainTypeBits;
+                        finalComputedBits += fileExtnBits;
+                        finalComputedBits += soundIDbits;
 
-                    extraInfo += $"MainType (4 bits): {mainTypeBits}\r\n\r\n";
-                    extraInfo += $"Category (2 bits): {fileExtnBits}\r\n\r\n";
-                    extraInfo += $"Dir & FileID (26 bits): {soundNumBits}";
-                    finalComputedBits.Reverse();
+                        extraInfo += $"MainType (4 bits): {mainTypeBits}\r\n\r\n";
+                        extraInfo += $"Category (2 bits): {fileExtnBits}\r\n\r\n";
+                        extraInfo += $"Dir & FileID (26 bits): {soundIDbits}";
+                        finalComputedBits.Reverse();
 
-                    fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
+                        fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
-                    SharedMethods.ShowSuccessForm(fileCode, extraInfo);
-                    break;
+                        SharedMethods.ShowSuccessForm(fileCode, extraInfo);
+                        break;
 
 
-                default:
-                    SharedMethods.ErrorHalt("Unable to generate filecode. check if the path starts with a valid directory.");
-                    break;
+                    default:
+                        SharedMethods.ErrorHalt("Unable to generate filecode. check if the path starts with a valid directory.");
+                        break;
+                }
+            }
+            else
+            {
+                SharedMethods.ErrorHalt("Unable to generate filecode. check if the path starts with a valid directory.");
             }
         }
         #endregion
@@ -141,68 +148,75 @@ namespace WhiteFilecodeGenerator.Dirs
             // 4 bits
             var reservedBits = "0000";
 
-            switch (startingPortion)
+            if (virtualPathData.Length > 2)
             {
-                case "sound/pack":
-                    // 2 bits
-                    if (fileExtn == ".scd")
-                    {
-                        fileExtnID = 2;
-                    }
-                    else
-                    {
-                        fileExtnID = 3;
-                    }
+                switch (startingPortion)
+                {
+                    case "sound/pack":
+                        // 2 bits
+                        if (fileExtn == ".scd")
+                        {
+                            fileExtnID = 2;
+                        }
+                        else
+                        {
+                            fileExtnID = 3;
+                        }
 
-                    fileExtnBits = Convert.ToString(fileExtnID, 2).PadLeft(2, '0');
+                        fileExtnBits = Convert.ToString(fileExtnID, 2).PadLeft(2, '0');
 
-                    // 26 bits
-                    var soundDirNumber = SharedMethods.DeriveNumFromString(virtualPathData[2]);
-                    string soundNumBits;
+                        // 26 bits
+                        var soundDirID = SharedMethods.DeriveNumFromString(virtualPathData[2]);
+                        string soundIDbits;
 
-                    if (soundDirNumber == -1)
-                    {
-                        SharedMethods.ErrorHalt("Sound directory number specified was invalid");
-                    }
+                        if (soundDirID == -1)
+                        {
+                            SharedMethods.ErrorHalt("Sound directory number specified was invalid");
+                        }
 
-                    if (soundDirNumber > 9999)
-                    {
-                        SharedMethods.ErrorHalt("Sound directory number in the path is too large. must be from 0000 to 9999.");
-                    }
+                        if (soundDirID > 9999)
+                        {
+                            SharedMethods.ErrorHalt("Sound directory number in the path is too large. must be from 0 to 9999.");
+                        }
 
-                    // If .wpd, then do not
-                    // prompt for file number
-                    if (fileExtn == ".wpd")
-                    {
-                        soundNumBits = Convert.ToString(soundDirNumber, 2).PadLeft(26, '0');
-                    }
-                    else
-                    {
-                        var scdFileID = SharedMethods.UserInput("Enter SCD number", "Must be from 0 to 999", 0, 999);
+                        // If .wpd, then do not
+                        // prompt for file number
+                        if (fileExtn == ".wpd")
+                        {
+                            soundIDbits = Convert.ToString(soundDirID, 2).PadLeft(26, '0');
+                        }
+                        else
+                        {
+                            var scdFileID = SharedMethods.UserInput("Enter SCD number", "Must be from 0 to 999", 0, 999);
 
-                        var scdFileNum = int.Parse(soundDirNumber.ToString() + "" + scdFileID.ToString().PadLeft(3, '0'));
-                        soundNumBits = Convert.ToString(scdFileNum, 2).PadLeft(26, '0');
-                    }
+                            var scdFileIDmerged = int.Parse(soundDirID.ToString() + "" + scdFileID.ToString().PadLeft(3, '0'));
+                            soundIDbits = Convert.ToString(scdFileIDmerged, 2).PadLeft(26, '0');
+                        }
 
-                    // Assemble bits
-                    finalComputedBits += reservedBits;
-                    finalComputedBits += fileExtnBits;
-                    finalComputedBits += soundNumBits;
+                        // Assemble bits
+                        finalComputedBits += reservedBits;
+                        finalComputedBits += fileExtnBits;
+                        finalComputedBits += soundIDbits;
 
-                    extraInfo += $"Reserved (4 bits): {reservedBits}\r\n\r\n";
-                    extraInfo += $"Category (2 bits): {fileExtnBits}\r\n\r\n";
-                    extraInfo += $"Dir & FileID (26 bits): {soundNumBits}";
-                    finalComputedBits.Reverse();
+                        extraInfo += $"Reserved (4 bits): {reservedBits}\r\n\r\n";
+                        extraInfo += $"Category (2 bits): {fileExtnBits}\r\n\r\n";
+                        extraInfo += $"Dir & FileID (26 bits): {soundIDbits}";
+                        finalComputedBits.Reverse();
 
-                    fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
+                        fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
-                    SharedMethods.ShowSuccessForm(fileCode, extraInfo);
-                    break;
+                        SharedMethods.ShowSuccessForm(fileCode, extraInfo);
+                        break;
 
 
-                default:
-                    SharedMethods.ErrorHalt("Unable to generate filecode. check if the path starts with a valid directory.");
-                    break;
+                    default:
+                        SharedMethods.ErrorHalt("Unable to generate filecode. check if the path starts with a valid directory.");
+                        break;
+                }
+            }
+            else
+            {
+                SharedMethods.ErrorHalt("Unable to generate filecode. check if the path starts with a valid directory.");
             }
         }
         #endregion

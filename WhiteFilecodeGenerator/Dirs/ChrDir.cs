@@ -54,68 +54,70 @@ namespace WhiteFilecodeGenerator.Dirs
             // 4 bits
             var mainTypeBits = string.Empty;
 
-            switch (startingPortion)
+            if (virtualPathData.Length > 2)
             {
-                case "chr/pc":
-                case "chr/fa":
-                case "chr/mon":
-                case "chr/npc":
-                case "chr/weapon":
-                    mainTypeBits = Convert.ToString(1, 2).PadLeft(4, '0');
+                switch (startingPortion)
+                {
+                    case "chr/fa":
+                    case "chr/mon":
+                    case "chr/npc":
+                    case "chr/pc":
+                    case "chr/summon":
+                    case "chr/weapon":
+                        mainTypeBits = Convert.ToString(1, 2).PadLeft(4, '0');
 
-                    // 5 bits
-                    var categoryID = DetermineChrCategory(virtualPathData[1]);
-                    if (categoryID == -1)
-                    {
-                        SharedMethods.ErrorHalt("Unable to determine category");
-                    }
+                        // 5 bits
+                        var chrCategoryBits = Convert.ToString(DetermineChrCategory(virtualPathData[1]), 2).PadLeft(5, '0');
 
-                    var chrCategoryBits = Convert.ToString(categoryID, 2).PadLeft(5, '0');
+                        // 10 bits
+                        var modelID = SharedMethods.DeriveNumFromString(virtualPathData[2]);
+                        if (modelID == -1)
+                        {
+                            SharedMethods.ErrorHalt("Model number in the path is invalid");
+                        }
 
-                    // 10 bits
-                    var modelNum = SharedMethods.DeriveNumFromString(virtualPathData[2]);
-                    if (modelNum == -1)
-                    {
-                        SharedMethods.ErrorHalt("Model number in the path is invalid");
-                    }
+                        if (modelID > 999)
+                        {
+                            SharedMethods.ErrorHalt("Model number in the path is too large. must be from 0 to 999.");
+                        }
 
-                    if (modelNum > 999)
-                    {
-                        SharedMethods.ErrorHalt("Model number in the path is too large. must be from 000 to 999.");
-                    }
+                        var modelIDbits = Convert.ToString(modelID, 2).PadLeft(10, '0');
 
-                    var modelNumBits = Convert.ToString(modelNum, 2).PadLeft(10, '0');
+                        // 5 bits
+                        fileExtnID = fileExtn == ".imgb" ? 0 : 1;
+                        fileExtnBits = Convert.ToString(fileExtnID, 2).PadLeft(5, '0');
 
-                    // 5 bits
-                    fileExtnID = fileExtn == ".imgb" ? 0 : 1;
-                    fileExtnBits = Convert.ToString(fileExtnID, 2).PadLeft(5, '0');
+                        // 8 bits (remaining)
+                        var reservedBits = "00000000";
 
-                    // 8 bits (remaining)
-                    var reservedBits = "00000000";
+                        // Assemble bits
+                        finalComputedBits += mainTypeBits;
+                        finalComputedBits += chrCategoryBits;
+                        finalComputedBits += modelIDbits;
+                        finalComputedBits += fileExtnBits;
+                        finalComputedBits += reservedBits;
 
-                    // Assemble bits
-                    finalComputedBits += mainTypeBits;
-                    finalComputedBits += chrCategoryBits;
-                    finalComputedBits += modelNumBits;
-                    finalComputedBits += fileExtnBits;
-                    finalComputedBits += reservedBits;
+                        extraInfo += $"MainType (4 bits): {mainTypeBits}\r\n\r\n";
+                        extraInfo += $"Category (5 bits): {chrCategoryBits}\r\n\r\n";
+                        extraInfo += $"ModelID (10 bits): {modelIDbits}\r\n\r\n";
+                        extraInfo += $"ModelExtension Type (5 bits): {fileExtnBits}\r\n\r\n";
+                        extraInfo += $"Reserved (8 bits): {reservedBits}";
+                        finalComputedBits.Reverse();
 
-                    extraInfo += $"MainType (4 bits): {mainTypeBits}\r\n\r\n";
-                    extraInfo += $"Category (5 bits): {chrCategoryBits}\r\n\r\n";
-                    extraInfo += $"ModelNumber (10 bits): {modelNumBits}\r\n\r\n";
-                    extraInfo += $"ModelExtension Type (5 bits): {fileExtnBits}\r\n\r\n";
-                    extraInfo += $"Reserved (8 bits): {reservedBits}";
-                    finalComputedBits.Reverse();
+                        fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
-                    fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
-
-                    SharedMethods.ShowSuccessForm(fileCode, extraInfo);
-                    break;
+                        SharedMethods.ShowSuccessForm(fileCode, extraInfo);
+                        break;
 
 
-                default:
-                    SharedMethods.ErrorHalt("Unable to generate filecode. check if the path starts with a valid directory.");
-                    break;
+                    default:
+                        SharedMethods.ErrorHalt("Unable to generate filecode. check if the path starts with a valid directory.");
+                        break;
+                }
+            }
+            else
+            {
+                SharedMethods.ErrorHalt("Unable to generate filecode. check if the path starts with a valid directory.");
             }
         }
         #endregion
@@ -147,93 +149,94 @@ namespace WhiteFilecodeGenerator.Dirs
             // 4 bits
             var reservedBits = "0000";
 
-            switch (startingPortion)
+            if (virtualPathData.Length > 2)
             {
-                case "chr/pc":
-                case "chr/exte":
-                case "chr/fa":
-                case "chr/mon":
-                case "chr/npc":
-                case "chr/weapon":
-                    // 5 bits
-                    var categoryID = DetermineChrCategory(virtualPathData[1]);
-                    if (categoryID == -1)
-                    {
-                        SharedMethods.ErrorHalt("Unable to determine category");
-                    }
+                switch (startingPortion)
+                {
+                    case "chr/fa":
+                    case "chr/mon":
+                    case "chr/npc":
+                    case "chr/pc":
+                    case "chr/summon":
+                    case "chr/weapon":
+                        // 5 bits
+                        var chrCategoryBits = Convert.ToString(DetermineChrCategory(virtualPathData[1]), 2).PadLeft(5, '0');
 
-                    var chrCategoryBits = Convert.ToString(categoryID, 2).PadLeft(5, '0');
-
-                    // 10 bits
-                    var modelNum = SharedMethods.DeriveNumFromString(virtualPathData[2]);
-                    if (modelNum == -1)
-                    {
-                        SharedMethods.ErrorHalt("Model number specified is invalid");
-                    }
-
-                    if (modelNum > 999)
-                    {
-                        SharedMethods.ErrorHalt("Model number in the path is too large. must be from 000 to 999.");
-                    }
-
-                    var modelNumBits = Convert.ToString(modelNum, 2).PadLeft(10, '0');
-
-                    // 5 bits
-                    switch (fileExtn)
-                    {
-                        case ".imgb":
-                            fileExtnID = 0;
-                            break;
-
-                        case ".trb":
-                            fileExtnID = 1;
-                            break;
-
-                        case ".mpk":
-                            fileExtnID = 4;
-                            break;
-                    }
-
-                    fileExtnBits = Convert.ToString(fileExtnID, 2).PadLeft(5, '0');
-
-                    // 8 bits
-                    var mpkID = 0;
-                    if (fileExtn == ".mpk")
-                    {
-                        if (virtualPath.Contains("_rain"))
+                        // 10 bits
+                        var modelID = SharedMethods.DeriveNumFromString(virtualPathData[2]);
+                        if (modelID == -1)
                         {
-                            mpkID = 1;
+                            SharedMethods.ErrorHalt("Model number specified is invalid");
                         }
-                        else if (virtualPath.Contains("_snow"))
+
+                        if (modelID > 999)
                         {
-                            mpkID = 2;
+                            SharedMethods.ErrorHalt("Model number in the path is too large. must be from 0 to 999.");
                         }
-                    }
-                    var mpkIDbits = Convert.ToString(mpkID, 2).PadLeft(8, '0');
 
-                    // Assemble bits
-                    finalComputedBits += reservedBits;
-                    finalComputedBits += chrCategoryBits;
-                    finalComputedBits += modelNumBits;
-                    finalComputedBits += fileExtnBits;
-                    finalComputedBits += mpkIDbits;
+                        var modelIDbits = Convert.ToString(modelID, 2).PadLeft(10, '0');
 
-                    extraInfo += $"Reserved (4 bits): {reservedBits}\r\n\r\n";
-                    extraInfo += $"Category (5 bits): {chrCategoryBits}\r\n\r\n";
-                    extraInfo += $"ModelNumber (10 bits): {modelNumBits}\r\n\r\n";
-                    extraInfo += $"ModelExtension Type (5 bits): {fileExtnBits}\r\n\r\n";
-                    extraInfo += $"Mpk ID (8 bits): {mpkIDbits}";
-                    finalComputedBits.Reverse();
+                        // 5 bits
+                        switch (fileExtn)
+                        {
+                            case ".imgb":
+                                fileExtnID = 0;
+                                break;
 
-                    fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
+                            case ".trb":
+                                fileExtnID = 1;
+                                break;
 
-                    SharedMethods.ShowSuccessForm(fileCode, extraInfo);
-                    break;
+                            case ".mpk":
+                                fileExtnID = 4;
+                                break;
+                        }
+
+                        fileExtnBits = Convert.ToString(fileExtnID, 2).PadLeft(5, '0');
+
+                        // 8 bits
+                        var mpkID = 0;
+                        if (fileExtn == ".mpk")
+                        {
+                            if (virtualPath.Contains("_rain"))
+                            {
+                                mpkID = 1;
+                            }
+                            else if (virtualPath.Contains("_snow"))
+                            {
+                                mpkID = 2;
+                            }
+                        }
+                        var mpkIDbits = Convert.ToString(mpkID, 2).PadLeft(8, '0');
+
+                        // Assemble bits
+                        finalComputedBits += reservedBits;
+                        finalComputedBits += chrCategoryBits;
+                        finalComputedBits += modelIDbits;
+                        finalComputedBits += fileExtnBits;
+                        finalComputedBits += mpkIDbits;
+
+                        extraInfo += $"Reserved (4 bits): {reservedBits}\r\n\r\n";
+                        extraInfo += $"Category (5 bits): {chrCategoryBits}\r\n\r\n";
+                        extraInfo += $"ModelID (10 bits): {modelIDbits}\r\n\r\n";
+                        extraInfo += $"ModelExtension Type (5 bits): {fileExtnBits}\r\n\r\n";
+                        extraInfo += $"MpkID (8 bits): {mpkIDbits}";
+                        finalComputedBits.Reverse();
+
+                        fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
+
+                        SharedMethods.ShowSuccessForm(fileCode, extraInfo);
+                        break;
 
 
-                default:
-                    SharedMethods.ErrorHalt("Unable to generate filecode. check if the path starts with a valid directory.");
-                    break;
+                    default:
+                        SharedMethods.ErrorHalt("Unable to generate filecode. check if the path starts with a valid directory.");
+                        break;
+                }
+            }
+            else
+            {
+                SharedMethods.ErrorHalt("Unable to generate filecode. check if the path starts with a valid directory.");
             }
         }
         #endregion
@@ -265,77 +268,78 @@ namespace WhiteFilecodeGenerator.Dirs
             // 4 bits
             var reservedBits = "0000";
 
-            switch (startingPortion)
+            if (virtualPathData.Length > 2)
             {
-                case "chr/pc":
-                case "chr/exte":
-                case "chr/fa":
-                case "chr/mon":
-                case "chr/npc":
-                case "chr/weapon":
-                    // 5 bits
-                    var categoryID = DetermineChrCategory(virtualPathData[1]);
-                    if (categoryID == -1)
-                    {
-                        SharedMethods.ErrorHalt("Unable to determine category");
-                    }
+                switch (startingPortion)
+                {
+                    case "chr/fa":
+                    case "chr/mon":
+                    case "chr/npc":
+                    case "chr/pc":
+                    case "chr/summon":
+                    case "chr/weapon":
+                        // 5 bits
+                        var chrCategoryBits = Convert.ToString(DetermineChrCategory(virtualPathData[1]), 2).PadLeft(5, '0');
 
-                    var chrCategoryBits = Convert.ToString(categoryID, 2).PadLeft(5, '0');
+                        // 10 bits
+                        var modelID = SharedMethods.DeriveNumFromString(virtualPathData[2]);
+                        if (modelID == -1)
+                        {
+                            SharedMethods.ErrorHalt("Model number specified is invalid");
+                        }
 
-                    // 10 bits
-                    var modelNum = SharedMethods.DeriveNumFromString(virtualPathData[2]);
-                    if (modelNum == -1)
-                    {
-                        SharedMethods.ErrorHalt("Model number specified is invalid");
-                    }
+                        if (modelID > 999)
+                        {
+                            SharedMethods.ErrorHalt("Model number in the path is too large. must be from 0 to 999.");
+                        }
 
-                    if (modelNum > 999)
-                    {
-                        SharedMethods.ErrorHalt("Model number in the path is too large. must be from 000 to 999.");
-                    }
+                        var modelIDbits = Convert.ToString(modelID, 2).PadLeft(10, '0');
 
-                    var modelNumBits = Convert.ToString(modelNum, 2).PadLeft(10, '0');
+                        // 5 bits
+                        switch (fileExtn)
+                        {
+                            case ".imgb":
+                                fileExtnID = 0;
+                                break;
 
-                    // 5 bits
-                    switch (fileExtn)
-                    {
-                        case ".imgb":
-                            fileExtnID = 0;
-                            break;
+                            case ".trb":
+                                fileExtnID = 1;
+                                break;
+                        }
 
-                        case ".trb":
-                            fileExtnID = 1;
-                            break;
-                    }
+                        fileExtnBits = Convert.ToString(fileExtnID, 2).PadLeft(5, '0');
 
-                    fileExtnBits = Convert.ToString(fileExtnID, 2).PadLeft(5, '0');
+                        // 8 bits
+                        var reserved2Bits = "00000000";
 
-                    // 8 bits
-                    var reserved2Bits = "00000000";
+                        // Assemble bits
+                        finalComputedBits += reservedBits;
+                        finalComputedBits += chrCategoryBits;
+                        finalComputedBits += modelIDbits;
+                        finalComputedBits += fileExtnBits;
+                        finalComputedBits += reserved2Bits;
 
-                    // Assemble bits
-                    finalComputedBits += reservedBits;
-                    finalComputedBits += chrCategoryBits;
-                    finalComputedBits += modelNumBits;
-                    finalComputedBits += fileExtnBits;
-                    finalComputedBits += reserved2Bits;
+                        extraInfo += $"Reserved (4 bits): {reservedBits}\r\n\r\n";
+                        extraInfo += $"Category (5 bits): {chrCategoryBits}\r\n\r\n";
+                        extraInfo += $"ModelID (10 bits): {modelIDbits}\r\n\r\n";
+                        extraInfo += $"ModelExtension Type (5 bits): {fileExtnBits}\r\n\r\n";
+                        extraInfo += $"Reserved2 (8 bits): {reserved2Bits}";
+                        finalComputedBits.Reverse();
 
-                    extraInfo += $"Reserved (4 bits): {reservedBits}\r\n\r\n";
-                    extraInfo += $"Category (5 bits): {chrCategoryBits}\r\n\r\n";
-                    extraInfo += $"ModelNumber (10 bits): {modelNumBits}\r\n\r\n";
-                    extraInfo += $"ModelExtension Type (5 bits): {fileExtnBits}\r\n\r\n";
-                    extraInfo += $"Reserved2 (8 bits): {reserved2Bits}";
-                    finalComputedBits.Reverse();
+                        fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
 
-                    fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
-
-                    SharedMethods.ShowSuccessForm(fileCode, extraInfo);
-                    break;
+                        SharedMethods.ShowSuccessForm(fileCode, extraInfo);
+                        break;
 
 
-                default:
-                    SharedMethods.ErrorHalt("Unable to generate filecode. check if the path starts with a valid directory.");
-                    break;
+                    default:
+                        SharedMethods.ErrorHalt("Unable to generate filecode. check if the path starts with a valid directory.");
+                        break;
+                }
+            }
+            else
+            {
+                SharedMethods.ErrorHalt("Unable to generate filecode. check if the path starts with a valid directory.");
             }
         }
         #endregion
@@ -343,7 +347,7 @@ namespace WhiteFilecodeGenerator.Dirs
 
         private static int DetermineChrCategory(string dirName)
         {
-            var categoryID = -1;
+            var categoryID = 0;
 
             switch (dirName)
             {
@@ -373,6 +377,10 @@ namespace WhiteFilecodeGenerator.Dirs
 
                 case "weapon":
                     categoryID = 22;
+                    break;
+
+                default:
+                    SharedMethods.ErrorHalt("Unable to determine category from the filename. check if the chr filename, starts with a valid category string.");
                     break;
             }
 

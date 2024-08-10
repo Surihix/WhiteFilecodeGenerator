@@ -51,64 +51,80 @@ namespace WhiteFilecodeGenerator.Dirs
             // 4 bits
             var mainTypeBits = string.Empty;
 
-            switch (startingPortion)
+            if (virtualPathData.Length > 3)
             {
-                case "vfx/chr":
-                    mainTypeBits = Convert.ToString(1, 2).PadLeft(4, '0');
+                switch (startingPortion)
+                {
+                    case "vfx/chr":
+                        mainTypeBits = Convert.ToString(1, 2).PadLeft(4, '0');
 
-                    // 5 bits
-                    var categoryID = DetermineVfxChrCategory(virtualPathData[2][0]);
-                    if (categoryID == -1)
-                    {
-                        SharedMethods.ErrorHalt("Unable to determine category");
-                    }
+                        // 5 bits
+                        var chrCategoryBits = Convert.ToString(DetermineVfxChrCategory(virtualPathData[2][0]), 2).PadLeft(5, '0');
 
-                    var chrCategoryBits = Convert.ToString(categoryID, 2).PadLeft(5, '0');
+                        // 10 bits
+                        var modelID = SharedMethods.DeriveNumFromString(virtualPathData[2]);
+                        if (modelID == -1)
+                        {
+                            SharedMethods.ErrorHalt("Model number in the path is invalid");
+                        }
 
-                    // 10 bits
-                    var modelNum = SharedMethods.DeriveNumFromString(virtualPathData[2]);
-                    if (modelNum == -1)
-                    {
-                        SharedMethods.ErrorHalt("Model number in the path is invalid");
-                    }
+                        if (modelID > 999)
+                        {
+                            SharedMethods.ErrorHalt("Model number in the path is too large. must be from 0 to 999.");
+                        }
 
-                    if (modelNum > 999)
-                    {
-                        SharedMethods.ErrorHalt("Model number in the path is too large. must be from 000 to 999.");
-                    }
+                        var modelIDbits = Convert.ToString(modelID, 2).PadLeft(10, '0');
 
-                    var modelNumBits = Convert.ToString(modelNum, 2).PadLeft(10, '0');
+                        // 5 bits
+                        fileExtnID = fileExtn == ".imgb" ? 2 : 3;
+                        fileExtnBits = Convert.ToString(fileExtnID, 2).PadLeft(5, '0');
 
-                    // 5 bits
-                    fileExtnID = fileExtn == ".imgb" ? 2 : 3;
-                    fileExtnBits = Convert.ToString(fileExtnID, 2).PadLeft(5, '0');
+                        // 8 bits
+                        int version;
+                        if (virtualPathData.Length > 3)
+                        {
+                            version = SharedMethods.DeriveNumFromString(virtualPathData[3]);
 
-                    // 8 bits (remaining)
-                    var unkIDbits = "00000001";
+                            if (version == -1)
+                            {
+                                SharedMethods.ErrorHalt("Version number in the path is invalid");
+                            }
+                        }
+                        else
+                        {
+                            version = 0;
+                        }
 
-                    // Assemble bits
-                    finalComputedBits += mainTypeBits;
-                    finalComputedBits += chrCategoryBits;
-                    finalComputedBits += modelNumBits;
-                    finalComputedBits += fileExtnBits;
-                    finalComputedBits += unkIDbits;
+                        var versionBits = Convert.ToString(version, 2).PadLeft(8, '0');
 
-                    extraInfo += $"MainType (4 bits): {mainTypeBits}\r\n\r\n";
-                    extraInfo += $"Category (5 bits): {chrCategoryBits}\r\n\r\n";
-                    extraInfo += $"ModelNumber (10 bits): {modelNumBits}\r\n\r\n";
-                    extraInfo += $"ModelExtension Type (5 bits): {fileExtnBits}\r\n\r\n";
-                    extraInfo += $"Unk ID (8 bits): {unkIDbits}";
-                    finalComputedBits.Reverse();
+                        // Assemble bits
+                        finalComputedBits += mainTypeBits;
+                        finalComputedBits += chrCategoryBits;
+                        finalComputedBits += modelIDbits;
+                        finalComputedBits += fileExtnBits;
+                        finalComputedBits += versionBits;
 
-                    fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
+                        extraInfo += $"MainType (4 bits): {mainTypeBits}\r\n\r\n";
+                        extraInfo += $"Category (5 bits): {chrCategoryBits}\r\n\r\n";
+                        extraInfo += $"ModelID (10 bits): {modelIDbits}\r\n\r\n";
+                        extraInfo += $"ModelExtension Type (5 bits): {fileExtnBits}\r\n\r\n";
+                        extraInfo += $"Version (8 bits): {versionBits}";
+                        finalComputedBits.Reverse();
 
-                    SharedMethods.ShowSuccessForm(fileCode, extraInfo);
-                    break;
+                        fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
+
+                        SharedMethods.ShowSuccessForm(fileCode, extraInfo);
+                        break;
 
 
-                default:
-                    SharedMethods.ErrorHalt("Unable to generate filecode. check if the path starts with a valid directory.");
-                    break;
+                    default:
+                        SharedMethods.ErrorHalt("Unable to generate filecode. check if the path starts with a valid directory.");
+                        break;
+                }
+            }
+            else
+            {
+                SharedMethods.ErrorHalt("Unable to generate filecode. check if the path starts with a valid directory.");
             }
         }
         #endregion
@@ -135,62 +151,78 @@ namespace WhiteFilecodeGenerator.Dirs
             // 4 bits
             var reservedBits = "0000";
 
-            switch (startingPortion)
+            if (virtualPathData.Length > 3)
             {
-                case "vfx/chr":
-                    // 5 bits
-                    var categoryID = DetermineVfxChrCategory(virtualPathData[2][0]);
-                    if (categoryID == -1)
-                    {
-                        SharedMethods.ErrorHalt("Unable to determine category");
-                    }
+                switch (startingPortion)
+                {
+                    case "vfx/chr":
+                        // 5 bits
+                        var chrCategoryBits = Convert.ToString(DetermineVfxChrCategory(virtualPathData[2][0]), 2).PadLeft(5, '0');
 
-                    var chrCategoryBits = Convert.ToString(categoryID, 2).PadLeft(5, '0');
+                        // 10 bits
+                        var modelID = SharedMethods.DeriveNumFromString(virtualPathData[2]);
+                        if (modelID == -1)
+                        {
+                            SharedMethods.ErrorHalt("Model number in the path is invalid");
+                        }
 
-                    // 10 bits
-                    var modelNum = SharedMethods.DeriveNumFromString(virtualPathData[2]);
-                    if (modelNum == -1)
-                    {
-                        SharedMethods.ErrorHalt("Model number in the path is invalid");
-                    }
+                        if (modelID > 999)
+                        {
+                            SharedMethods.ErrorHalt("Model number in the path is too large. must be from 0 to 999.");
+                        }
 
-                    if (modelNum > 999)
-                    {
-                        SharedMethods.ErrorHalt("Model number in the path is too large. must be from 000 to 999.");
-                    }
+                        var modelIDbits = Convert.ToString(modelID, 2).PadLeft(10, '0');
 
-                    var modelNumBits = Convert.ToString(modelNum, 2).PadLeft(10, '0');
+                        // 5 bits
+                        fileExtnID = fileExtn == ".imgb" ? 2 : 3;
+                        fileExtnBits = Convert.ToString(fileExtnID, 2).PadLeft(5, '0');
 
-                    // 5 bits
-                    fileExtnID = fileExtn == ".imgb" ? 2 : 3;
-                    fileExtnBits = Convert.ToString(fileExtnID, 2).PadLeft(5, '0');
+                        // 8 bits
+                        int version;
+                        if (virtualPathData.Length > 3)
+                        {
+                            version = SharedMethods.DeriveNumFromString(virtualPathData[3]);
 
-                    // 8 bits
-                    var unkIDbits = "00000001";
+                            if (version == -1)
+                            {
+                                SharedMethods.ErrorHalt("Version number in the path is invalid");
+                            }
+                        }
+                        else
+                        {
+                            version = 0;
+                        }
 
-                    // Assemble bits
-                    finalComputedBits += reservedBits;
-                    finalComputedBits += chrCategoryBits;
-                    finalComputedBits += modelNumBits;
-                    finalComputedBits += fileExtnBits;
-                    finalComputedBits += unkIDbits;
+                        var versionBits = Convert.ToString(version, 2).PadLeft(8, '0');
 
-                    extraInfo += $"Reserved (4 bits): {reservedBits}\r\n\r\n";
-                    extraInfo += $"Category (5 bits): {chrCategoryBits}\r\n\r\n";
-                    extraInfo += $"ModelNumber (10 bits): {modelNumBits}\r\n\r\n";
-                    extraInfo += $"ModelExtension Type (5 bits): {fileExtnBits}\r\n\r\n";
-                    extraInfo += $"Unk ID (8 bits): {unkIDbits}";
-                    finalComputedBits.Reverse();
+                        // Assemble bits
+                        finalComputedBits += reservedBits;
+                        finalComputedBits += chrCategoryBits;
+                        finalComputedBits += modelIDbits;
+                        finalComputedBits += fileExtnBits;
+                        finalComputedBits += versionBits;
 
-                    fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
+                        extraInfo += $"Reserved (4 bits): {reservedBits}\r\n\r\n";
+                        extraInfo += $"Category (5 bits): {chrCategoryBits}\r\n\r\n";
+                        extraInfo += $"ModelID (10 bits): {modelIDbits}\r\n\r\n";
+                        extraInfo += $"ModelExtension Type (5 bits): {fileExtnBits}\r\n\r\n";
+                        extraInfo += $"Version (8 bits): {versionBits}";
+                        finalComputedBits.Reverse();
 
-                    SharedMethods.ShowSuccessForm(fileCode, extraInfo);
-                    break;
+                        fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
+
+                        SharedMethods.ShowSuccessForm(fileCode, extraInfo);
+                        break;
 
 
-                default:
-                    SharedMethods.ErrorHalt("Unable to generate filecode. check if the path starts with a valid directory.");
-                    break;
+                    default:
+                        SharedMethods.ErrorHalt("Unable to generate filecode. check if the path starts with a valid directory.");
+                        break;
+                }
+            }
+            else
+            {
+                SharedMethods.ErrorHalt("Unable to generate filecode. check if the path starts with a valid directory.");
             }
         }
         #endregion
@@ -198,7 +230,7 @@ namespace WhiteFilecodeGenerator.Dirs
 
         private static int DetermineVfxChrCategory(char startChara)
         {
-            var categoryID = -1;
+            var categoryID = 0;
 
             switch (startChara)
             {
@@ -224,6 +256,10 @@ namespace WhiteFilecodeGenerator.Dirs
 
                 case 'w':
                     categoryID = 22;
+                    break;
+
+                default:
+                    SharedMethods.ErrorHalt("Unable to determine category from the filename. check if the vfx filename, starts with a valid category string.");
                     break;
             }
 
