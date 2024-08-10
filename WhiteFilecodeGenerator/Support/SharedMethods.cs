@@ -28,26 +28,26 @@ namespace WhiteFilecodeGenerator.Support
         }
 
 
-        public static int DeriveNumFromString(string fieldName)
+        public static int DeriveNumFromString(string numberedString)
         {
             var foundNumsList = new List<int>();
 
-            for (int i = 0; i < fieldName.Length; i++)
+            for (int i = 0; i < numberedString.Length; i++)
             {
-                if (fieldName[i] == '.')
+                if (numberedString[i] == '.')
                 {
                     break;
                 }
 
-                if (fieldName[i] == ' ')
+                if (numberedString[i] == ' ')
                 {
                     ErrorHalt("Number contains spaces");
                     break;
                 }
 
-                if (char.IsDigit(fieldName[i]))
+                if (char.IsDigit(numberedString[i]))
                 {
-                    foundNumsList.Add(int.Parse(Convert.ToString(fieldName[i])));
+                    foundNumsList.Add(int.Parse(Convert.ToString(numberedString[i])));
                 }
             }
 

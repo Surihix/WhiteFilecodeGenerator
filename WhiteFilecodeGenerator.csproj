@@ -59,6 +59,7 @@
       <DependentUpon>CoreForm.cs</DependentUpon>
     </Compile>
     <Compile Include="WhiteFilecodeGenerator\Dirs\ChrDir.cs" />
+    <Compile Include="WhiteFilecodeGenerator\Dirs\EventDir.cs" />
     <Compile Include="WhiteFilecodeGenerator\Dirs\GuiDir.cs" />
     <Compile Include="WhiteFilecodeGenerator\Dirs\SoundDir.cs" />
     <Compile Include="WhiteFilecodeGenerator\Dirs\TxtresDir.cs" />

@@ -23,7 +23,7 @@ namespace WhiteFilecodeGenerator.Dirs
 
                 case GameID.xiii2:
                 case GameID.xiii3:
-                    TxtresPathXIII2(virtualPathData, virtualPath);
+                    TxtresPathXIII2LR(virtualPathData, virtualPath);
                     break;
             }
         }
@@ -195,7 +195,7 @@ namespace WhiteFilecodeGenerator.Dirs
 
 
         #region XIII-2 and XIII-LR
-        private static void TxtresPathXIII2(string[] virtualPathData, string virtualPath)
+        private static void TxtresPathXIII2LR(string[] virtualPathData, string virtualPath)
         {
             var startingPortion = virtualPathData[0] + "/" + virtualPathData[1];
 
