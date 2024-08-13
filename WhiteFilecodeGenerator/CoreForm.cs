@@ -54,11 +54,9 @@ namespace WhiteFilecodeGenerator
                 }
                 catch (Exception ex)
                 {
-                    var exMsg = ex.ToString();
-
-                    if (exMsg != "Handled")
+                    if (ex.Message.ToString() != "Error handled")
                     {
-                        SharedMethods.DisplayMsgBox(exMsg, true);
+                        SharedMethods.DisplayMsgBox(ex.ToString(), true);
                         EnableDisableGUI(true);
                     }
                 }

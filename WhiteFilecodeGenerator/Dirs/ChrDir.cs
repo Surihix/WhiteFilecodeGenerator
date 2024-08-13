@@ -153,6 +153,7 @@ namespace WhiteFilecodeGenerator.Dirs
             {
                 switch (startingPortion)
                 {
+                    case "chr/exte":
                     case "chr/fa":
                     case "chr/mon":
                     case "chr/npc":
@@ -272,6 +273,7 @@ namespace WhiteFilecodeGenerator.Dirs
             {
                 switch (startingPortion)
                 {
+                    case "chr/exte":
                     case "chr/fa":
                     case "chr/mon":
                     case "chr/npc":

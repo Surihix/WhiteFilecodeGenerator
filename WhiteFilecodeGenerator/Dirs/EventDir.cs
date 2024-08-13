@@ -120,37 +120,24 @@ namespace WhiteFilecodeGenerator.Dirs
                             // 10 bits
                             evIDbits = Convert.ToString(evID, 2).PadLeft(10, '0');
 
-                            // 10 bits
-                            var numInFileName = SharedMethods.DeriveNumFromString(virtualPathData[4]);
+                            // 9 bits
+                            var dataSetIDbits = Convert.ToString(GetDataSetID(virtualPathData[4]), 2).PadLeft(9, '0');
 
-                            var dataSetID = 0;
-
-                            if (virtualPathData[4].StartsWith("a"))
-                            {
-                                dataSetID = GetDataSetID(4, numInFileName);
-                            }
-                            else if (virtualPathData[4].StartsWith("b"))
-                            {
-                                dataSetID = GetDataSetID(204, numInFileName);
-                            }
-
-                            if (fileExtn == ".imgb")
-                            {
-                                dataSetID++;
-                            }
-
-                            var dataSetIDbits = Convert.ToString(dataSetID, 2).PadLeft(10, '0');
+                            // 1 bit
+                            var fileTypeBit = fileExtn == ".imgb" ? "1" : "0";
 
                             // Assemble bits
                             finalComputedBits += mainTypeBits;
                             finalComputedBits += zoneIDbits;
                             finalComputedBits += evIDbits;
                             finalComputedBits += dataSetIDbits;
+                            finalComputedBits += fileTypeBit;
 
                             extraInfo += $"MainType (4 bits): {mainTypeBits}\r\n\r\n";
                             extraInfo += $"ZoneID (8 bits): {zoneIDbits}\r\n\r\n";
                             extraInfo += $"EvID (10 bits): {evIDbits}\r\n\r\n";
-                            extraInfo += $"DataSetID (10 bits): {dataSetIDbits}";
+                            extraInfo += $"DataSetID (9 bits): {dataSetIDbits}\r\n\r\n";
+                            extraInfo += $"FileType (1 bit): {fileTypeBit}";
                             finalComputedBits.Reverse();
 
                             fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
@@ -251,35 +238,22 @@ namespace WhiteFilecodeGenerator.Dirs
                             // 10 bits
                             evIDbits = Convert.ToString(evID, 2).PadLeft(10, '0');
 
-                            // 10 bits
-                            var numInFileName = SharedMethods.DeriveNumFromString(virtualPathData[4]);
+                            // 9 bits
+                            var dataSetIDbits = Convert.ToString(GetDataSetID(virtualPathData[4]), 2).PadLeft(9, '0');
 
-                            var dataSetID = 0;
-
-                            if (virtualPathData[4].StartsWith("a"))
-                            {
-                                dataSetID = GetDataSetID(4, numInFileName);
-                            }
-                            else if (virtualPathData[4].StartsWith("b"))
-                            {
-                                dataSetID = GetDataSetID(204, numInFileName);
-                            }
-
-                            if (fileExtn == ".imgb")
-                            {
-                                dataSetID++;
-                            }
-
-                            var dataSetIDbits = Convert.ToString(dataSetID, 2).PadLeft(10, '0');
+                            // 1 bit
+                            var fileTypeBit = fileExtn == ".imgb" ? "1" : "0";
 
                             // Assemble bits
                             finalComputedBits += zoneIDbits;
                             finalComputedBits += evIDbits;
                             finalComputedBits += dataSetIDbits;
+                            finalComputedBits += fileTypeBit;
 
                             extraInfo += $"ZoneID (12 bits): {zoneIDbits}\r\n\r\n";
                             extraInfo += $"EvID (10 bits): {evIDbits}\r\n\r\n";
-                            extraInfo += $"DataSetID (10 bits): {dataSetIDbits}";
+                            extraInfo += $"DataSetID (9 bits): {dataSetIDbits}\r\n\r\n";
+                            extraInfo += $"FileType (1 bit): {fileTypeBit}";
                             finalComputedBits.Reverse();
 
                             fileCode = finalComputedBits.BinaryToUInt(0, 32).ToString();
@@ -301,13 +275,9 @@ namespace WhiteFilecodeGenerator.Dirs
         #endregion
 
 
-        private static int GetDataSetID(int startVal, int fileNameVal)
-        {
-            var dataSetID = startVal;
-
-            dataSetID += (2 * fileNameVal);
-
-            return dataSetID;
+        private static int GetDataSetID(string fileName)
+        {           
+            return (SharedMethods.LettersList.IndexOf(fileName[0]) * 100) + SharedMethods.DeriveNumFromString(fileName) + 2;
         }
     }
 }

@@ -8,6 +8,14 @@ namespace WhiteFilecodeGenerator.Support
     {
         public static int NumInput { get; set; }
 
+
+        public static readonly List<char> LettersList = new List<char>
+        {
+            'a','b','c','d','e','f','g','h','i','j','k','l','m',
+            'n','o','p','q','r','s','t','u','v','w','x','y','z'
+        };
+
+
         public static void DisplayMsgBox(string msg, bool isError)
         {
             if (isError)
@@ -24,7 +32,7 @@ namespace WhiteFilecodeGenerator.Support
         public static void ErrorHalt(string errorMsg)
         {
             DisplayMsgBox(errorMsg, true);
-            throw new Exception("Handled");
+            throw new Exception("Error handled");
         }
 
 

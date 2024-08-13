@@ -23,6 +23,10 @@ namespace WhiteFilecodeGenerator
                     GuiDir.ProcessGuiPath(virtualPathData, virtualPath, gameID);
                     break;
 
+                case "mot":
+                    MotDir.ProcessMotPath(virtualPathData, virtualPath, gameID);
+                    break;
+
                 case "sound":
                     SoundDir.ProcessSoundPath(virtualPathData, virtualPath, gameID);
                     break;
