@@ -9,6 +9,11 @@ namespace WhiteFilecodeGenerator
         {
             var virtualPathData = virtualPath.Split('/');
 
+            if (virtualPathData.Length < 2) 
+            {
+                SharedMethods.ErrorHalt("A Valid path is not specified");
+            }
+
             switch (virtualPathData[0])
             {
                 case "chr":

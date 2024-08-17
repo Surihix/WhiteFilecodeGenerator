@@ -33,7 +33,6 @@ namespace WhiteFilecodeGenerator.Dirs
         #region XIII
         private static void EventPathXIII(string[] virtualPathData, string virtualPath)
         {
-            var startingPortion = virtualPathData[0] + "/" + virtualPathData[1];
             var fileExtn = Path.GetExtension(virtualPath);
 
             if (!_validExtensions.Contains(fileExtn))
@@ -158,7 +157,6 @@ namespace WhiteFilecodeGenerator.Dirs
         #region XIII-2 and XIII-LR
         private static void EventPathXIII2LR(string[] virtualPathData, string virtualPath)
         {
-            var startingPortion = virtualPathData[0] + "/" + virtualPathData[1];
             var fileExtn = Path.GetExtension(virtualPath);
 
             if (!_validExtensions.Contains(fileExtn))
