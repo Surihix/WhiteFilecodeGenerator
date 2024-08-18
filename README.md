@@ -22,5 +22,3 @@ This small program allows you to generate filecodes for files stored in the whit
   | txtres/zone | .ztr files |
   | vfx/chr | .imgb and .xfv files |
   | zone/z### | .wdb and .clb files |
-
-- Some filepaths require numerical ids to be specified and these numerical ids will be documented and linked here shortly. 
