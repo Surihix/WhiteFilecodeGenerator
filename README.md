@@ -15,7 +15,7 @@
 | gui/resident/mission | .imgb and .xgr files |
 | gui/resident/tutorial | .imgb and .xgr files |
 | mot | .bin files |
-| sound/pack | .scd and .wpd files
+| sound/pack | .scd and .wpd files |
 | txtres/ac | .ztr files |
 | txtres/event | .ztr files |
 | txtres/zone | .ztr files |
