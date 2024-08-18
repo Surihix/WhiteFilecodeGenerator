@@ -1,7 +1,7 @@
 # WhiteFilecodeGenerator
 <br>![Image Text](app-img_repo.png)
 <br><br>
-<br>This small program allows you to generate filecodes for files stored in the white_img archive files from the FINAL FANTASY XIII trilogy.
+This small program allows you to generate filecodes for files stored in the white_img archive files from the FINAL FANTASY XIII trilogy.
 
 ## Important
 Currently you can generate paths only for these following directories and files:
