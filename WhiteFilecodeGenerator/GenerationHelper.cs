@@ -20,6 +20,10 @@ namespace WhiteFilecodeGenerator
                     ChrDir.ProcessChrPath(virtualPathData, virtualPath, gameID);
                     break;
 
+                case "btscene":
+                    BtsceneDir.ProcessBtscenePath(virtualPathData, virtualPath, gameID);
+                    break;
+
                 case "event":
                     EventDir.ProcessEventPath(virtualPathData, virtualPath, gameID);
                     break;
