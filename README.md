@@ -8,6 +8,9 @@ This small program allows you to generate filecodes for files stored in the whit
 
   | Directories | File Types | 
   | --- | --- |
+  | btscene/wdb/entry | .wdb files |
+  | btscene/pack/clb | .clb files |  
+  | btscene/pack/wdb | .wdb files |  
   | chr | .trb, .imgb and .mpk files |
   | event | .xwb, .bin and .imgb files |
   | gui/resident/autoclip | .imgb and .xgr files |
