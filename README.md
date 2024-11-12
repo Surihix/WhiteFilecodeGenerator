@@ -3,8 +3,18 @@
 <br><br>
 This small program allows you to generate filecodes for files stored in the white_img archive files from the FINAL FANTASY XIII trilogy.
 
-## Important
-- You can generate filecodes only for these following directories and files:
+# Usage
+The below steps will assume that you are familiar with unpacking the filelist file with the WhiteBinTools and have some idea on how to filepaths to the filelist file.
+
+- Select the game for which you are generating the virutal path.
+- Type in the path that matches the structure of a valid virtual path supported by the trilogy.
+- For example, if you want to add a new music file path, then the virtual path would be like this:
+  - ``sound/pack/8000/music_custom.win32.scd``
+- On entering the file path, there will be an optional prompt to enter a file Id or zone Id. the former can be your choice but the latter is dependent on the game's own zone Ids.
+- After entering the id, the program will generate a filecode along with a binary breakdown of the filecode. you can use this filecode in the filelist file.
+
+# Important
+- You can currently generate filecodes only for these following directories and files:
 
   | Directories | File Types | 
   | --- | --- |
