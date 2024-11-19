@@ -4,7 +4,7 @@
 This small program allows you to generate filecodes for files stored in the white_img archive files from the FINAL FANTASY XIII trilogy.
 
 # Usage
-The below steps will assume that you are familiar with unpacking the filelist file with the WhiteBinTools and have some idea on how to filepaths to the filelist file.
+The below steps will assume that you are familiar with unpacking the filelist file with the WhiteBinTools and have some idea on how to add filepaths to the filelist file.
 
 - Select the game for which you are generating the virutal path.
 - Type in the path that matches the structure of a valid virtual path supported by the trilogy.
